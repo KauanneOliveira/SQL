@@ -10,4 +10,4 @@ Repositório criado para armazenar os códigos feitos em SQL durante a disciplin
 
 ##  Apoio
 
-Dê uma ⭐️ se gosotu desse repositório!
+Dê uma ⭐️ se gostou desse repositório!
