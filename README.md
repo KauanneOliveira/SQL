@@ -1,4 +1,4 @@
-<h1 align="center">SQL C</h1>
+<h1 align="center">SQL</h1>
 
 Repositório criado para armazenar os códigos feitos em SQL durante a disciplina de Banco de Dados.
 
