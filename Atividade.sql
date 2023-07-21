@@ -6,7 +6,8 @@ CREATE TABLE Tarefa(
     id_lista INT,
     descricao VARCHAR(100) NOT NULL,
     realizada BOOLEAN NOT NULL,
-    FOREIGN KEY( id_lista ) REFERENCES Lista_Tarefas( id )
+    dia_final DATE,
+    FOREIGN KEY( id_lista ) REFERENCES Lista_Tarefas( id ) ON DELETE CASCADE
 );
 
 CREATE TABLE Usuario(
@@ -24,7 +25,7 @@ CREATE TABLE Alteracao_Senha(
     id_verificacao CHAR( 36 ),
     gerada_em DATETIME,
     utilizada BOOL,
-    FOREIGN KEY( id_usuario ) REFERENCES Usuario( id )
+    FOREIGN KEY( id_usuario ) REFERENCES Usuario( id ) ON DELETE CASCADE
 );
 
 CREATE TABLE Lista_Tarefas(
@@ -32,7 +33,7 @@ CREATE TABLE Lista_Tarefas(
     id_usuario INT,
     nome VARCHAR( 100 ),
     cor CHAR( 6 ),
-    FOREIGN KEY( id_usuario ) REFERENCES Usuario( id )
+    FOREIGN KEY( id_usuario ) REFERENCES Usuario( id ) ON DELETE CASCADE
 );
 
 INSERT INTO Usuario( id, nome, email, senha, id_verificacao, verificado ) VALUES
@@ -51,16 +52,17 @@ INSERT INTO Lista_Tarefas( id, id_usuario, nome, cor ) VALUES
 ( 8, 3, 'Treino Basquete', '6495ED'),
 ( 9, 3, 'Escola', '00BFFF');
 
-INSERT INTO Tarefa( id, id_lista, descricao, realizada ) VALUES
-( 1, 3, 'Comprar Carne Moida', false ),
-( 2, 2, 'Limpar pia', false),
-( 3, 9, 'Fazer lição de LG2', true),
-( 4, 2, 'Arrumar a casa', true),
-( 5, 2, 'Lavar a roupa', false),
-( 6, 5, 'Andar 2 Km', true),
-( 7, 9, 'Fazer bomba nuclear', false),
-( 8, 8, 'Treino de arremesso', true),
-( 9, 3, 'Ir a feira', false);
+INSERT INTO Tarefa( id, id_lista, descricao, realizada, dia_final ) VALUES
+( 1, 3, 'Comprar Carne Moida', false, '2022-03-08' ),
+( 2, 2, 'Limpar pia', false, '2022-09-20'),
+( 3, 9, 'Fazer lição de LG2', true, '2022-06-17'),
+( 4, 2, 'Arrumar a casa', true, '2022-01-12'),
+( 5, 2, 'Lavar a roupa', false, '2022-02-29'),
+( 6, 5, 'Andar 2 Km', true, '2022-05-11'),
+( 7, 9, 'Fazer bomba nuclear', false, '2022-07-03'),
+( 8, 8, 'Treino de arremesso', true, '2022-08-08'),
+( 9, 3, 'Ir a feira', false, '2022-12-22'),
+( 10, 1, 'Soco lateral', true, '2022-04-18');
 
 INSERT INTO Alteracao_Senha( id, id_usuario, id_verificacao, gerada_em, utilizada) VALUES
 ( 1, 1, 'd5991b16-0edf-412b-a892-53338f6e9b02', '2022-04-11 15:27:00', false);
@@ -70,6 +72,23 @@ INSERT INTO Alteracao_Senha( id, id_usuario, id_verificacao, gerada_em, utilizad
 UPDATE Tarefa
 SET realizada = true
 WHERE id = 1;
+
+SELECT * FROM Tarefa
+WHERE dia_final = '2022-04-18'
+AND id_lista IN ( 1, 2, 3 );
+
+SELECT * FROM Tarefa
+WHERE dia_final < '2022-04-18'
+AND realizada = true
+AND id_lista IN ( 1, 2, 3 );
+
+DELETE FROM Lista_Tarefa
+WHERE id = 2;
+
+DELETE FROM Tarefa
+WHERE id_lista = 2;
+DELETE FROM Lista_Tarefa
+WHERE id = 2;
 
 SELECT * FROM Tarefa;
 SELECT * FROM Usuario;
