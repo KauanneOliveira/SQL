@@ -14,15 +14,15 @@ CREATE TABLE Usuario(
     id INT PRIMARY KEY NOT NULL,
     nome VARCHAR( 150 ) NOT NULL,
     email VARCHAR( 150 ) NOT NULL,
-    senha CHAR( 60 ) NOT NULL,
-    id_verificacao CHAR( 36 ),
+    senha CHAR( 60 ) NOT NULL, -- Bcrypt
+    id_verificacao CHAR( 36 ), -- UUID
     verificado BOOLEAN
 );
 
 CREATE TABLE Alteracao_Senha(
     id INT PRIMARY KEY NOT NULL,
     id_usuario INT,
-    id_verificacao CHAR( 36 ),
+    id_verificacao CHAR( 36 ), -- UUID
     gerada_em DATETIME,
     utilizada BOOL,
     FOREIGN KEY( id_usuario ) REFERENCES Usuario( id ) ON DELETE CASCADE
@@ -73,25 +73,32 @@ UPDATE Tarefa
 SET realizada = true
 WHERE id = 1;
 
+-- Tarefas do dia
 SELECT * FROM Tarefa
 WHERE dia_final = '2022-04-18'
 AND id_lista IN ( 1, 2, 3 );
 
+-- tarefas atrasadas
 SELECT * FROM Tarefa
 WHERE dia_final < '2022-04-18'
-AND realizada = true
+AND realizada = false
 AND id_lista IN ( 1, 2, 3 );
 
+-- com ON DELETE CASCADE
 DELETE FROM Lista_Tarefa
-WHERE id = 2;
+WHERE id = 2;    -- exclui a lista 2
 
+-- sem ON DELETE CASCADE
 DELETE FROM Tarefa
-WHERE id_lista = 2;
+WHERE id_lista = 2;    -- exclui tarefas da lista 2
 DELETE FROM Lista_Tarefa
-WHERE id = 2;
+WHERE id = 2;    -- exclui a lista 2
+
+-- Vai mostrar só as tarefas da Maria 
+SELECT * FROM Tarefa 
+WHERE id_usuario = 2;
 
 SELECT * FROM Tarefa;
 SELECT * FROM Usuario;
-SELECT * FROM Tarefa WHERE id_usuario = 2;
 SELECT * FROM Alteracao_Senha;
 SELECT * FROM Lista_Tarefas;
